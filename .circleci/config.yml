@@ -2,24 +2,6 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.2
 jobs:
-  install-dependencies:
-    working_directory: ~/repo
-    docker:
-      - image: cimg/node:16.13.2
-    steps:
-      - checkout
-      - run:
-          name: Update or install NPM
-          command: 'sudo npm install -g npm'
-      - restore_cache:
-          key: app-{{ checksum "package-lock.json" }}
-      - run:
-          name: Install Dependencies
-          command: npm install
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
   test:
     docker:
       - image: 'cimg/base:stable'
@@ -39,6 +21,18 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Update or install NPM
+          command: 'sudo npm install -g npm'
+      - restore_cache:
+          key: app-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+      - run:
           name: Install CLI Vercel
           command: 'sudo npm install -g vercel'
       - attach_workspace:
@@ -57,20 +51,15 @@ workflows:
               ignore:
                 - main
                 - develop
-                - chore/94-set-up-ci
   deploy-to-staging:
     jobs:
       - test:
           filters:
             branches:
-              only: chore/94-set-up-ci
-      - install-dependencies:
-          filters:
-            branches:
-              only: chore/94-set-up-ci
+              only: develop
       - deploy-to-staging:
           requires:
-            - install-dependencies
+            - test
   deploy-to-live:
     jobs:
       - test:
