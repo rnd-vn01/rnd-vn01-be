@@ -43,6 +43,7 @@ jobs:
           command: 'sudo npm install -g vercel'
       - attach_workspace:
           at: .
+      - node/install-packages
       - run:
           name: Vercel Prod Deploy
           command: vercel --prod --name $VERCEL_PROJECT_NAME --scope $VERCEL_SCOPE --token=$VERCEL_TOKEN --yes
