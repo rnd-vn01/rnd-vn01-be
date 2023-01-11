@@ -22,9 +22,10 @@ jobs:
           node-version: '18.12'
       - node/install-packages
       - run:
-          command: sudo npm install -g vercel
-      - run:
-          command: npm run build
+          name: Install CLI Vercel
+          command: 'sudo npm install -g vercel'
+      - attach_workspace:
+          at: .
       - run:
           command: vercel --prod --build-env --name $VERCEL_PROJECT_NAME --scope $VERCER_SCOPE --token=$VERCEL_TOKEN --yes
   
