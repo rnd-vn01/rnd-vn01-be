@@ -45,7 +45,7 @@ jobs:
           at: .
       - run:
           name: Vercel Prod Deploy
-          command: vercel --prod --build-env --name $VERCEL_PROJECT_NAME --scope $VERCER_SCOPE --token=$VERCEL_TOKEN --yes
+          command: vercel --prod --scope $VERCER_SCOPE --token=$VERCEL_TOKEN --yes
   
 workflows:
   test:
