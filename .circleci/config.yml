@@ -18,8 +18,9 @@ jobs:
       - image: 'cimg/base:stable'
     steps:
       - checkout
-      - node/install:
-          node-version: '18.12'
+      - run:
+          name: Update or install NPM
+          command: 'sudo npm install -g npm'
       - node/install-packages
       - run:
           name: Install CLI Vercel
