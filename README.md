@@ -1,3 +1,7 @@
+# R&D Project - VN01 - Back-end
+CircleCI [![CircleCI](https://dl.circleci.com/status-badge/img/gh/rnd-vn01/rnd-vn01-be/tree/main.svg?style=svg&circle-token=12d3ca0b2aefb29061bd833bf781c0dc790969b0)](https://dl.circleci.com/status-badge/redirect/gh/rnd-vn01/rnd-vn01-be/tree/main)
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>

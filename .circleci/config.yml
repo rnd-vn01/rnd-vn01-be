@@ -1,0 +1,70 @@
+version: 2.1
+orbs:
+  node: circleci/node@5.0.2
+jobs:
+  test:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - node/install:
+          node-version: '12.22'
+      - node/install-packages
+      - run:
+          command: npm run test
+  deploy-to-staging:
+    description: Deploy application to staging server
+    build:
+    working_directory: ~/repo
+    docker:
+      - image: cimg/node:16.13.2
+    steps:
+      - checkout
+      - run:
+          name: Update or install NPM
+          command: 'sudo npm install -g npm'
+      - restore_cache:
+          key: app-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+      - run:
+          name: Install CLI Vercel
+          command: 'sudo npm install -g vercel'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Vercel Prod Deploy
+          command: vercel --prod --name $VERCEL_PROJECT_NAME --scope $VERCEL_SCOPE --token=$VERCEL_TOKEN --yes
+  
+workflows:
+  test:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore:
+                - main
+                - develop
+  deploy-to-staging:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only: develop
+      - deploy-to-staging:
+          requires:
+            - test
+  deploy-to-live:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only: main
+      # - deploy-to-live:
+      #     requires:
+      #       - test
