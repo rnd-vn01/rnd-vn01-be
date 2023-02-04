@@ -9,7 +9,10 @@ import { AppService } from './app.service';
     ConfigModule.forRoot(),
     MongooseModule.forRoot(
       // 'mongodb+srv://rnd-cycle13-vn01:OHgzUYdcgK4WVORu@cluster0.bqu0t0p.mongodb.net/rnd-cycle13-vn01?retryWrites=true&w=majority',
-      `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_CLUSTER}/${process.env.DATABASE_NAME}?retryWrites=true&w=majority`,
+      `mongodb+srv://${process.env.DATABASE_USER}
+      :${process.env.DATABASE_PASSWORD}
+      @${process.env.DATABASE_CLUSTER}
+      /${process.env.DATABASE_NAME}?retryWrites=true&w=majority`,
     ),
   ],
   controllers: [AppController],
