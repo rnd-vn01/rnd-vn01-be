@@ -16,12 +16,6 @@ export abstract class BaseService<T extends Document>
       }
     }
   }
-  findAll(): Promise<T[]> {
-    throw new Error('Method not implemented.');
-  }
-  findOne(conditions: Partial<Record<keyof T, unknown>>): Promise<T> {
-    throw new Error('Method not implemented.');
-  }
 
   async create(dto: Partial<Record<keyof T, unknown>>): Promise<T | null> {
     const newObj = await this.model.create({ ...dto });
@@ -32,16 +26,28 @@ export abstract class BaseService<T extends Document>
     return newObj;
   }
 
-  async getAll(): Promise<T[] | null> {
+  async update(
+    id: string,
+    updateDto: Partial<Record<keyof T, unknown>>,
+  ): Promise<boolean> {
+    const updateObject = await this.model.updateOne(
+      { _id: id },
+      { $set: updateDto },
+    );
+    return updateObject.acknowledged;
+  }
+
+  async findAll(): Promise<T[] | null> {
     const objects = await this.model.find().exec();
     return objects;
   }
 
-  async get(conditions: Partial<Record<keyof T, unknown>>): Promise<T[]> {
-    return this.model.find(conditions as FilterQuery<T>).exec();
+  async find(conditions: Partial<Record<keyof T, unknown>>): Promise<T[]> {
+    const test = conditions as FilterQuery<T>;
+    return await this.model.find(conditions as FilterQuery<T>).exec();
   }
 
-  async getOne(
+  async findOne(
     conditions: Partial<Record<keyof T, unknown>>,
   ): Promise<T | null> {
     const object = await this.model.findOne(conditions as FilterQuery<T>);
@@ -56,12 +62,12 @@ export abstract class BaseService<T extends Document>
     return await this.model.find({ _id: { $in: ids } }).exec();
   }
 
-  async update(
-    id: string,
+  async updateByCode(
+    code: string,
     updateDto: Partial<Record<keyof T, unknown>>,
   ): Promise<boolean> {
     const updateObject = await this.model.updateOne(
-      { _id: id },
+      { code: code },
       { $set: updateDto },
     );
     return updateObject.acknowledged;

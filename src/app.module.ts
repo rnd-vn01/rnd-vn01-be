@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AcupointModule } from './accupuncture-points/acupoint.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { MeridianModule } from './meridians/meridian.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { AppService } from './app.service';
       // /${process.env.MONGO_DATABASE_NAME}?retryWrites=true&w=majority`,
     ),
     AcupointModule,
+    MeridianModule,
   ],
   controllers: [AppController],
   providers: [AppService],
