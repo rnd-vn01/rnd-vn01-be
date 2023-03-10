@@ -73,9 +73,32 @@ export abstract class BaseService<T extends Document>
     return updateObject.acknowledged;
   }
 
+  async findOneAndUpdate(
+    filters: Partial<Record<keyof T, unknown>>,
+    updateDto: Partial<Record<keyof T, unknown>>,
+  ): Promise<T | null> {
+    const updatedObject = await this.model.findOneAndUpdate(
+      filters as FilterQuery<T>,
+      { $set: updateDto },
+      {
+        new: true,
+      },
+    );
+    return updatedObject;
+  }
+
   async remove(id: string): Promise<boolean> {
     const object = await this.model.findOne({ _id: id }).exec();
     const deletedObject = await this.model.deleteOne({ _id: id });
+    return deletedObject.deletedCount > 0;
+  }
+
+  async removeByConditions(
+    conditions: Partial<Record<keyof T, unknown>>,
+  ): Promise<boolean> {
+    const deletedObject = await this.model.deleteMany(
+      conditions as FilterQuery<T>,
+    );
     return deletedObject.deletedCount > 0;
   }
 }
