@@ -8,16 +8,9 @@ export class GetMeridianRequestDto {
   @IsEnum(LanguageEnum)
   language: LanguageEnum;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  name?: string;
-
   @ApiProperty()
   @IsOptional()
   @IsString()
-  @Transform((code) => {
-    return code.value.toUpperCase();
-  })
   code?: string;
 }
 
