@@ -34,17 +34,19 @@ export class MeridianController {
   }
 
   @Get('filter')
-  async getOneByFilter(@Query() filter: GetMeridianRequestDto) {
+  async getOneByFilter(
+    @Query() filter: GetMeridianRequestDto,
+  ): Promise<MeridiansEntity_en | MeridiansEntity_vi> {
     const { language, code } = filter;
     switch (language) {
       case LanguageEnum.VI:
-        const vi = await this.meridianService_vi.find({
+        const vi = await this.meridianService_vi.findOne({
           code: { $regex: code.toUpperCase() },
         });
         return vi;
 
       case LanguageEnum.EN:
-        const en = await this.meridianService_en.find({
+        const en = await this.meridianService_en.findOne({
           code: { $regex: code.toUpperCase() },
         });
         return en;
