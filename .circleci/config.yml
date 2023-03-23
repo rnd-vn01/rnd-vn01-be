@@ -21,12 +21,12 @@ jobs:
       - image: cimg/node:16.13.2
     steps:
       - checkout
-      # - run:
-      #     name: Install Heroku CLI
-      #     command: 'sudo npm install -g heroku'
-      # - run:
-      #     name: Check out remote branch on Heroku
-      #     command: 'heroku git:remote -a $HEROKU_APP_NAME'
+      - run:
+          name: Install Heroku CLI
+          command: 'sudo npm install -g heroku'
+      - run:
+          name: Check out remote branch on Heroku
+          command: 'heroku git:remote -a $HEROKU_APP_NAME'
       - run:
           name: Check out current changes
           command: 'git add .'
