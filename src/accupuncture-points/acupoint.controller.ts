@@ -52,7 +52,7 @@ export class AcupointController {
     }
   }
 
-  @Post()
+  @Put()
   async updateAcupoint(
     @Query() query: LanguageRequestDto,
     @Body() acupointDto: UpdateAcupointRequestDto,
