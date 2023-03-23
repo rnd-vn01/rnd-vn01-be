@@ -22,6 +22,15 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install Heroku CLI
+          command: 'sudo npm install -g heroku'
+      - run:
+          name: Check out remote branch on Heroku
+          command: 'heroku git:remote -a $HEROKU_APP_NAME'
+      - run:
+          name: Check out current changes
+          command: 'git add .'
+      - run:
           name: Force push code to Heroku
           command: 'git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git main --force'
   
