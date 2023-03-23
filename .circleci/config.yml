@@ -23,23 +23,7 @@ jobs:
       - checkout
       - heroku/install
       - heroku/deploy-via-git
-      # - checkout
-      # - run:
-      #     name: Install Heroku CLI
-      #     command: 'sudo npm install -g heroku'
-      # - run:
-      #     name: Check out remote branch on Heroku
-      #     command: 'heroku git:remote -a $HEROKU_APP_NAME'
-      # - run:
-      #     name: Check out current changes
-      #     command: 'git add .'
-      # - run:
-      #     name: Commit the changes
-      #     command: 'git -c user.email="cycle13.rnd.vn01@gmail.com" -c user.name="VN-01 Project" commit -am "[c] Build"'
-      # - run:
-      #     name: Force push code to Heroku
-      #     command: 'git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git main --force'
-  
+        
   # COMMENT OUT OLD VERCEL DEPLOY FLOW
   # deploy-to-staging:
   #   description: Deploy application to staging server

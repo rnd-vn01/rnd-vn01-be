@@ -8,7 +8,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('R&D - VN01 - Back-end Staging Server')
-    .setDescription('API Staging for project R&D - VN01')
+    .setDescription('API Staging Server for project R&D - VN01')
     .setVersion('1.0')
     .addTag('rnd-vn01-be')
     .build();
