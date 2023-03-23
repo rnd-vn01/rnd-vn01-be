@@ -6,6 +6,7 @@ export class AcupointDto {
   anatomy: string;
   technique: string;
   functionality: string[];
+  caution: string;
 }
 
 export class AcupointResponeDto {

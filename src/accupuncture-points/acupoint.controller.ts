@@ -17,7 +17,7 @@ export class AcupointController {
   constructor(
     private readonly acupointService_en: AcupointService_en,
     private readonly acupointService_vi: AcupointService_vi,
-  ) {}
+  ) { }
 
   @Get()
   async getAll(
@@ -52,7 +52,7 @@ export class AcupointController {
     }
   }
 
-  @Put()
+  @Post()
   async updateAcupoint(
     @Query() query: LanguageRequestDto,
     @Body() acupointDto: UpdateAcupointRequestDto,

@@ -53,7 +53,7 @@ export class MeridianController {
     }
   }
 
-  @Put()
+  @Post()
   async updateMeridian(
     @Query() query: LanguageRequestDto,
     @Body() updateMeridianReqDto: UpdateMeridianRequestDto,

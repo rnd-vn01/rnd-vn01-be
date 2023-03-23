@@ -38,8 +38,12 @@ export class CreateAcupointRequestDto {
   @ApiProperty()
   @IsString()
   functionalities: string[];
+
+  @ApiProperty()
+  @IsString()
+  caution: string;
 }
 
 export class UpdateAcupointRequestDto extends PartialType(
   CreateAcupointRequestDto,
-) {}
+) { }
