@@ -17,7 +17,7 @@ export class MeridianController {
   constructor(
     private readonly meridianService_en: MeridianService_en,
     private readonly meridianService_vi: MeridianService_vi,
-  ) {}
+  ) { }
 
   @Get()
   async getAll(
@@ -41,13 +41,13 @@ export class MeridianController {
     switch (language) {
       case LanguageEnum.VI:
         const vi = await this.meridianService_vi.findOne({
-          code: { $regex: code.toUpperCase() },
+          code: code,
         });
         return vi;
 
       case LanguageEnum.EN:
         const en = await this.meridianService_en.findOne({
-          code: { $regex: code.toUpperCase() },
+          code: code,
         });
         return en;
     }
