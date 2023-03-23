@@ -14,34 +14,6 @@ jobs:
       - run:
           command: npm run test
   deploy-to-staging:
-    description: Deploy application to staging server
-    build:
-    working_directory: ~/repo
-    docker:
-      - image: cimg/node:16.13.2
-    steps:
-      - checkout
-      - run:
-          name: Update or install NPM
-          command: 'sudo npm install -g npm'
-      - restore_cache:
-          key: app-{{ checksum "package-lock.json" }}
-      - run:
-          name: Install Dependencies
-          command: npm install
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-      - run:
-          name: Install CLI Vercel
-          command: 'sudo npm install -g vercel'
-      - attach_workspace:
-          at: .
-      - run:
-          name: Vercel Prod Deploy
-          command: vercel --prod --name $VERCEL_PROJECT_NAME --scope $VERCEL_SCOPE --token=$VERCEL_TOKEN --yes
-  deploy-to-heroku:
     description: Deploy application to staging server on heroku
     build:
     working_directory: ~/repo
@@ -50,8 +22,38 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install CLI Vercel
+          name: Force push code to Heroku
           command: 'git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git main --force'
+  
+  # COMMENT OUT OLD VERCEL DEPLOY FLOW
+  # deploy-to-staging:
+  #   description: Deploy application to staging server
+  #   build:
+  #   working_directory: ~/repo
+  #   docker:
+  #     - image: cimg/node:16.13.2
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Update or install NPM
+  #         command: 'sudo npm install -g npm'
+  #     - restore_cache:
+  #         key: app-{{ checksum "package-lock.json" }}
+  #     - run:
+  #         name: Install Dependencies
+  #         command: npm install
+  #     - persist_to_workspace:
+  #         root: .
+  #         paths:
+  #           - .
+  #     - run:
+  #         name: Install CLI Vercel
+  #         command: 'sudo npm install -g vercel'
+  #     - attach_workspace:
+  #         at: .
+  #     - run:
+  #         name: Vercel Prod Deploy
+  #         command: vercel --prod --name $VERCEL_PROJECT_NAME --scope $VERCEL_SCOPE --token=$VERCEL_TOKEN --yes
 
 workflows:
   test:
@@ -71,15 +73,6 @@ workflows:
       - deploy-to-staging:
           requires:
             - test
-  deploy-to-heroku:
-    jobs:
-      - test:
-          filters:
-            branches:
-              only: develop
-      - deploy-to-heroku:
-          requires:
-            - test 
 
   deploy-to-live:
     jobs:
