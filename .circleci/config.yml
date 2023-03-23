@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@5.0.2
+  heroku: circleci/heroku@1.0.1
 jobs:
   test:
     docker:
@@ -40,7 +41,7 @@ jobs:
       - run:
           name: Vercel Prod Deploy
           command: vercel --prod --name $VERCEL_PROJECT_NAME --scope $VERCEL_SCOPE --token=$VERCEL_TOKEN --yes
-  
+
 workflows:
   test:
     jobs:
@@ -59,6 +60,7 @@ workflows:
       - deploy-to-staging:
           requires:
             - test
+      - heroku/deploy-via-git
   deploy-to-live:
     jobs:
       - test:
