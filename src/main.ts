@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
 
   const config = new DocumentBuilder()
-    .setTitle('R&D - VN01 - Back-end Staging')
+    .setTitle('R&D - VN01 - Back-end Staging Server')
     .setDescription('API Staging for project R&D - VN01')
     .setVersion('1.0')
     .addTag('rnd-vn01-be')
