@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MeridianModule } from './meridians/meridian.module';
 import { UserModule } from './users/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UserModule } from './users/user.module';
     UserModule,
     AcupointModule,
     MeridianModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
