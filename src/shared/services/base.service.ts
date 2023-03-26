@@ -66,9 +66,9 @@ export abstract class BaseService<T extends Document>
     code: string,
     updateDto: Partial<Record<keyof T, unknown>>,
   ): Promise<boolean> {
-    const updateObject = await this.model.updateOne(
-      { code: code },
-      { $set: updateDto },
+    const updateObject = await this.model.replaceOne(
+      { "code": code },
+      updateDto,
     );
     return updateObject.acknowledged;
   }

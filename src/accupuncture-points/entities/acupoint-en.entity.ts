@@ -15,6 +15,8 @@ export class AcupointsEntity_en extends BaseEntity {
   technique: string;
   @Prop()
   functionalities: string[];
+  @Prop()
+  caution: string;
 }
 
 export const AcupointsSchema_en =

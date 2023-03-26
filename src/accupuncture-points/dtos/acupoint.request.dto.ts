@@ -8,16 +8,9 @@ export class GetAcupointRequestDto {
   @IsEnum(LanguageEnum)
   language: LanguageEnum;
 
-  @ApiPropertyOptional()
-  @IsOptional()
-  name?: string;
-
   @ApiProperty()
   @IsOptional()
   @IsString()
-  @Transform((code) => {
-    return code.value.toUpperCase();
-  })
   code?: string;
 }
 
@@ -45,8 +38,12 @@ export class CreateAcupointRequestDto {
   @ApiProperty()
   @IsString()
   functionalities: string[];
+
+  @ApiProperty()
+  @IsString()
+  caution: string;
 }
 
 export class UpdateAcupointRequestDto extends PartialType(
   CreateAcupointRequestDto,
-) {}
+) { }

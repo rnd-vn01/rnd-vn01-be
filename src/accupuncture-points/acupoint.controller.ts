@@ -17,7 +17,7 @@ export class AcupointController {
   constructor(
     private readonly acupointService_en: AcupointService_en,
     private readonly acupointService_vi: AcupointService_vi,
-  ) {}
+  ) { }
 
   @Get()
   async getAll(
@@ -33,18 +33,20 @@ export class AcupointController {
   }
 
   @Get('filter')
-  async getOneByFilter(@Query() filter: GetAcupointRequestDto) {
+  async getOneByFilter(
+    @Query() filter: GetAcupointRequestDto,
+  ): Promise<AcupointsEntity_en | AcupointsEntity_vi> {
     const { language, code } = filter;
     switch (language) {
       case LanguageEnum.VI:
-        const vi = await this.acupointService_vi.find({
-          code: { $regex: code.toUpperCase() },
+        const vi = await this.acupointService_vi.findOne({
+          code: code,
         });
         return vi;
 
       case LanguageEnum.EN:
-        const en = await this.acupointService_en.find({
-          code: { $regex: code.toUpperCase() },
+        const en = await this.acupointService_en.findOne({
+          code: code,
         });
         return en;
     }
