@@ -9,11 +9,12 @@ import {
 } from '@nestjs/common';
 import { Delete } from '@nestjs/common/decorators';
 import { ApiTags } from '@nestjs/swagger';
+import { IsEmail } from 'class-validator';
 import {
   CreateUserRequestDto,
   UpdateUserRequestDto,
 } from './dtos/user.request.dto';
-import { User } from './entities/user.entity';
+import { UserEntity } from './entities/user.entity';
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -25,7 +26,7 @@ export class UserController {
   }
 
   @Post()
-  async create(@Body() user: CreateUserRequestDto): Promise<User> {
+  async create(@Body() user: CreateUserRequestDto): Promise<UserEntity> {
     const isDuplicate = await this.userService.findOne({
       firebase_id: user.firebase_id,
     });
@@ -38,7 +39,7 @@ export class UserController {
   }
 
   @Get()
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UserEntity[]> {
     return await this.userService.findAll();
   }
 
@@ -49,25 +50,14 @@ export class UserController {
     return result;
   }
 
-  @Get('findUsersByQuery/:query') //???
-  async findOneByQuery(@Param('query') query: string) {
-    const searchByName = await this.userService.find({
-      name: { $regex: query },
-    });
-    const searchByEmail = await this.userService.find({
-      email: { $regex: query },
+  @Get('findUsersByQuery/:email') //???
+  @IsEmail()
+  async findOneByEmail(@Param('email') email: string): Promise<UserEntity> {
+    const user = await this.userService.findOne({
+      email: { $regex: email },
     });
 
-    searchByEmail.forEach((user) => {
-      const found = searchByName.some(
-        (element) => element.firebase_id === user.firebase_id,
-      );
-      if (!found) {
-        searchByName.push(user);
-      }
-    });
-
-    return searchByName;
+    return user;
   }
 
   @Put('updateProfile')
