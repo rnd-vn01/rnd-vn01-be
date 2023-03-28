@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { LanguageRequestDto } from 'src/shared/dtos/language.dto';
+import { LanguageRequestDto } from '../shared/dtos/language.dto';
 import { LanguageEnum } from '../shared/enums/language.enum';
 import {
   GetAcupointRequestDto,
@@ -17,7 +17,7 @@ export class AcupointController {
   constructor(
     private readonly acupointService_en: AcupointService_en,
     private readonly acupointService_vi: AcupointService_vi,
-  ) { }
+  ) {}
 
   @Get()
   async getAll(

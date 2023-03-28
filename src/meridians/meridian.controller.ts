@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { LanguageRequestDto } from 'src/shared/dtos/language.dto';
+import { LanguageRequestDto } from '../shared/dtos/language.dto';
 import { LanguageEnum } from '../shared/enums/language.enum';
 import {
   GetMeridianRequestDto,
@@ -17,7 +17,7 @@ export class MeridianController {
   constructor(
     private readonly meridianService_en: MeridianService_en,
     private readonly meridianService_vi: MeridianService_vi,
-  ) { }
+  ) {}
 
   @Get()
   async getAll(

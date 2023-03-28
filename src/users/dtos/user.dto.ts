@@ -1,8 +1,9 @@
+import { UserRoleEnum } from '../enums/user-role.enum';
+
 export class UserDto {
-  _id: string;
   firebase_id: string;
   email: string;
-  password: string;
   image: string;
   name: string;
+  role: UserRoleEnum;
 }

@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { BaseEntity } from 'src/shared/entities/base.entity';
+import { BaseEntity } from '../../shared/entities/base.entity';
+import { UserRoleEnum } from '../enums/user-role.enum';
 
 @Schema({ collection: 'Users', timestamps: true })
 export class UserEntity extends BaseEntity {
@@ -10,13 +11,13 @@ export class UserEntity extends BaseEntity {
   email: string;
 
   @Prop()
-  password: string;
-
-  @Prop()
   image: string;
 
   @Prop()
   name: string;
+
+  @Prop()
+  role: UserRoleEnum;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserEntity);
