@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserDto } from '../users/dtos/user.dto';
 import { UserEntity } from '../users/entities/user.entity';
 import { UserService } from '../users/user.service';
-import { JwtPayload, Payload } from './auth.interface';
+import { JwtPayload } from './auth.interface';
 
 @Injectable()
 export class AuthService {
@@ -12,27 +12,28 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<UserEntity> {
-    console.log(username);
+  async validateUser(firebase_id: string): Promise<UserEntity> {
+    const user = await this.usersService.findOne({ firebase_id: firebase_id });
 
-    const user = await this.usersService.findOne({ firebase_id: username });
-
-    console.log(user);
     return user ?? null;
   }
 
-  // async validateUser(firebase_id: string): Promise<UserEntity> {
-  //   console.log(username);
+  async generateJWT(firebase_id: string): Promise<{ access_token: string }> {
+    const user = await this.validateUser(firebase_id);
+    if (!user) {
+      throw new UnauthorizedException('NotFoundUser');
+    }
+    return this._generateJWT(user);
+  }
 
-  //   const user = await this.usersService.findOne({ firebase_id: firebase_id });
-
-  //   console.log(user);
-  //   return user ?? null;
-  // }
-
-  generateJWT(user: Payload): { access_token: string } {
-    const payload = { name: user.name, sub: user.firebase_id, role: user.role };
+  private _generateJWT(user: JwtPayload): { access_token: string } {
+    const payload = {
+      name: user.name,
+      firebase_Id: user.firebase_id,
+      role: user.role,
+    };
     console.log(`Generated JWT token with payload ${JSON.stringify(payload)}`);
+
     return {
       access_token: this.jwtService.sign(payload),
     };
