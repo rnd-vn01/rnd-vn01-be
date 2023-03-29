@@ -10,9 +10,6 @@ export class UserEntity extends BaseEntity {
   email: string;
 
   @Prop()
-  password: string;
-
-  @Prop()
   image: string;
 
   @Prop()
