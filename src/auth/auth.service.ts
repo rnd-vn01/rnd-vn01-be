@@ -30,7 +30,7 @@ export class AuthService {
     const payload = {
       name: user.name,
       firebase_Id: user.firebase_id,
-      role: user.role,
+      roles: user.roles,
     };
     console.log(`Generated JWT token with payload ${JSON.stringify(payload)}`);
 

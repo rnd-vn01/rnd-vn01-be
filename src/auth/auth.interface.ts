@@ -4,5 +4,5 @@ export interface JwtPayload {
   firebase_id: string;
   email?: string;
   name?: string;
-  role?: UserRoleEnum;
+  roles?: UserRoleEnum[];
 }

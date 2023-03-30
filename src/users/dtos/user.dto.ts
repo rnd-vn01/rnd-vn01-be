@@ -5,5 +5,5 @@ export class UserDto {
   email: string;
   image: string;
   name: string;
-  role: UserRoleEnum;
+  roles: UserRoleEnum[];
 }
