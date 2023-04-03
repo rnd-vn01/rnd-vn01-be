@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AcupointModule } from './accupuncture-points/acupoint.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MeridianModule } from './meridians/meridian.module';
+import { QuizzesModule } from './quizzes/quizzes.module';
 import { UserModule } from './users/user.module';
 
 @Module({
@@ -17,8 +18,9 @@ import { UserModule } from './users/user.module';
     UserModule,
     AcupointModule,
     MeridianModule,
+    QuizzesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
