@@ -7,18 +7,24 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { Delete } from '@nestjs/common/decorators';
+import { Delete, UseGuards } from '@nestjs/common/decorators';
 import { ApiTags } from '@nestjs/swagger';
 import { IsEmail } from 'class-validator';
+import { AuthGuard } from '../auth/auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../common/decorators';
 import {
   CreateUserRequestDto,
   UpdateUserRequestDto,
 } from './dtos/user.request.dto';
 import { UserEntity } from './entities/user.entity';
+import { UserRoleEnum } from './enums/user-role.enum';
 import { UserService } from './user.service';
+import { Public } from 'src/common/decorators/public.decorator';
 
 @Controller('users')
 @ApiTags('User')
+@UseGuards(AuthGuard)
 export class UserController {
   logger: Logger;
   constructor(private readonly userService: UserService) {
@@ -26,6 +32,7 @@ export class UserController {
   }
 
   @Post()
+  @Public()
   async create(@Body() user: CreateUserRequestDto): Promise<UserEntity> {
     const isDuplicate = await this.userService.findOne({
       firebase_id: user.firebase_id,
@@ -39,12 +46,16 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(RolesGuard)
+  @Roles(UserRoleEnum.USER)
   async findAll(): Promise<UserEntity[]> {
     return await this.userService.findAll();
   }
 
   // Find account by Firebase ID
   @Get('findByFirebaseID/:firebase_id')
+  @UseGuards(RolesGuard)
+  @Roles(UserRoleEnum.USER)
   async findOne(@Param('firebase_id') firebase_id: string) {
     const result = await this.userService.findOne({ firebase_id: firebase_id });
     return result;
@@ -52,6 +63,8 @@ export class UserController {
 
   @Get('findUsersByQuery/:email') //???
   @IsEmail()
+  @UseGuards(RolesGuard)
+  @Roles(UserRoleEnum.USER)
   async findOneByEmail(@Param('email') email: string): Promise<UserEntity> {
     const user = await this.userService.findOne({
       email: { $regex: email },
@@ -61,6 +74,8 @@ export class UserController {
   }
 
   @Put('updateProfile')
+  @UseGuards(RolesGuard)
+  @Roles(UserRoleEnum.USER)
   async update(@Body() updateUserDto: UpdateUserRequestDto) {
     const result = await this.userService.findOneAndUpdate(
       { firebase_id: updateUserDto.firebase_id },
@@ -71,6 +86,8 @@ export class UserController {
   }
 
   @Delete('/:firebase_id')
+  @UseGuards(RolesGuard)
+  @Roles(UserRoleEnum.USER)
   async deleteUser(@Param('firebase_id') firebase_id: string) {
     const result = await this.userService.removeByConditions({
       firebase_id: firebase_id,

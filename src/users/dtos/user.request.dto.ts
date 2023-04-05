@@ -1,7 +1,8 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
-import { IsEmail, IsString } from 'class-validator';
+import { IsArray, IsEmail, IsEnum, IsString } from 'class-validator';
+import { UserRoleEnum } from '../enums/user-role.enum';
 
-export class GetUserRequestDto { }
+export class GetUserRequestDto {}
 
 export class CreateUserRequestDto {
   @ApiProperty()
@@ -19,6 +20,11 @@ export class CreateUserRequestDto {
   @ApiProperty()
   @IsString()
   name: string;
+
+  @ApiProperty()
+  @IsArray()
+  @IsEnum(UserRoleEnum, { each: true })
+  roles: UserRoleEnum[];
 }
 
-export class UpdateUserRequestDto extends PartialType(CreateUserRequestDto) { }
+export class UpdateUserRequestDto extends PartialType(CreateUserRequestDto) {}

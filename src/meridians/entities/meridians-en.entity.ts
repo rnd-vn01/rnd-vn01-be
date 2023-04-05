@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { BaseEntity } from 'src/shared/entities/base.entity';
+import { BaseEntity } from '../../shared/entities/base.entity';
 
 @Schema({ collection: 'meridians_en', timestamps: true })
 export class MeridiansEntity_en extends BaseEntity {

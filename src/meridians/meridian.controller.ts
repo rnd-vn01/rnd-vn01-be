@@ -1,7 +1,11 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Get, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { LanguageRequestDto } from 'src/shared/dtos/language.dto';
+import { AuthGuard } from '../auth/auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../common/decorators';
+import { LanguageRequestDto } from '../shared/dtos/language.dto';
 import { LanguageEnum } from '../shared/enums/language.enum';
+import { UserRoleEnum } from '../users/enums/user-role.enum';
 import {
   GetMeridianRequestDto,
   UpdateMeridianRequestDto,
@@ -17,7 +21,7 @@ export class MeridianController {
   constructor(
     private readonly meridianService_en: MeridianService_en,
     private readonly meridianService_vi: MeridianService_vi,
-  ) { }
+  ) {}
 
   @Get()
   async getAll(
@@ -53,6 +57,8 @@ export class MeridianController {
     }
   }
 
+  @UseGuards(AuthGuard, RolesGuard)
+  @Roles(UserRoleEnum.ADMIN)
   @Put()
   async updateMeridian(
     @Query() query: LanguageRequestDto,
