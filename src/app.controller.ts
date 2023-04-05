@@ -7,7 +7,7 @@ import { Public } from './common/decorators/public.decorator';
 @Controller()
 @Public()
 export class AppController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Post('login')
   async login(@Req() req): Promise<{ access_token: string }> {
