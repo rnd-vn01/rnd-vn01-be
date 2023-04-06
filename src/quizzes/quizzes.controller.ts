@@ -1,9 +1,14 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { CreateQuizDto } from './dto/create-quiz.dto';
+import { UseGuards } from '@nestjs/common/decorators';
+import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../auth/auth.guard';
+import { CreateQuizDto } from './dto/create-quiz.request.dto';
 import { QuizzesEntity } from './entities/quizzes.entity';
 import { QuizzesService } from './quizzes.service';
 
+@ApiTags('Quizzes')
 @Controller('quizzes')
+@UseGuards(AuthGuard)
 export class QuizzesController {
   constructor(private readonly quizzesService: QuizzesService) {}
 
@@ -17,17 +22,15 @@ export class QuizzesController {
     return await this.quizzesService.findOne({ _id: id });
   }
 
-  @Get('users/:firebaseId')
+  @Get('users/:firebase_id')
   async findAllByUserFirebaseId(
-    @Param() firebaseId: string,
+    @Param('firebase_id') firebaseId: string,
   ): Promise<QuizzesEntity[]> {
-    return await this.quizzesService.find({ userFirebaseId: firebaseId });
+    const quizzes = await this.quizzesService.find({
+      userFirebaseId: firebaseId,
+    });
+    return quizzes;
   }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateQuizDto: UpdateQuizDto) {
-  //   return this.quizzesService.update(id, updateQuizDto);
-  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
