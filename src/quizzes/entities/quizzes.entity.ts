@@ -17,12 +17,15 @@ export class QuizzesEntity extends BaseEntity {
 
   @Prop()
   details: IQuestionDetail[];
+
+  @Prop()
+  datetime: string;
 }
 
 export interface IQuestionDetail {
   question: string;
-  answer: number;
-  correctAnswer: number;
+  answer: number | string;
+  correctAnswer: number | string;
   time: number;
   isCorrect: boolean;
   options: IQuestionDetailOption[];

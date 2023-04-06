@@ -6,4 +6,5 @@ export class CreateQuizDto {
   correctAnswers: number;
   quizOption: number;
   details: IQuestionDetail[];
+  datetime: string;
 }

@@ -21,6 +21,10 @@ export class CreateQuizDto {
   @ApiProperty()
   @IsArray()
   details: QuestionDetailDto[];
+
+  @ApiProperty()
+  @IsString()
+  datetime: string;
 }
 
 export class QuestionDetailDto {
