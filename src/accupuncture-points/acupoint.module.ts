@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AcupointController } from './acupoint.controller';
 import {
@@ -17,7 +16,6 @@ const providers = [AcupointService_en, AcupointService_vi];
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
     MongooseModule.forFeature([
       { name: AcupointsEntity_en.name, schema: AcupointsSchema_en },
     ]),
