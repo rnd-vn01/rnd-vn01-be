@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { MeridianModule } from './meridians/meridian.module';
+import { QuizzesModule } from './quizzes/quizzes.module';
 import { GlobalModule } from './shared/modules/global.module';
 import { UserModule } from './users/user.module';
 
@@ -21,6 +22,7 @@ import { UserModule } from './users/user.module';
     AuthModule,
     AcupointModule,
     MeridianModule,
+    QuizzesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
