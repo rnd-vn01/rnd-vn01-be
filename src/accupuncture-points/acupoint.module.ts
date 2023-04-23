@@ -27,4 +27,4 @@ const providers = [AcupointService_en, AcupointService_vi];
   providers: providers,
   exports: providers,
 })
-export class AcupointModule {}
+export class AcupointModule { }
