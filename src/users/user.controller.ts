@@ -20,7 +20,7 @@ import {
 import { UserEntity } from './entities/user.entity';
 import { UserRoleEnum } from './enums/user-role.enum';
 import { UserService } from './user.service';
-import { Public } from 'src/common/decorators/public.decorator';
+import { Public } from '../common/decorators/public.decorator';
 
 @Controller('users')
 @ApiTags('User')
@@ -56,7 +56,9 @@ export class UserController {
   @Get('findByFirebaseID/:firebase_id')
   @UseGuards(RolesGuard)
   @Roles(UserRoleEnum.USER)
-  async findOne(@Param('firebase_id') firebase_id: string) {
+  async findOne(
+    @Param('firebase_id') firebase_id: string,
+  ): Promise<UserEntity> {
     const result = await this.userService.findOne({ firebase_id: firebase_id });
     return result;
   }
