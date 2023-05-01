@@ -11,6 +11,7 @@ import {
 } from './entities/quizzes.entity';
 import { QuizzesController } from './quizzes.controller';
 import { QuizzesService } from './quizzes.service';
+import { QuestionDetailDto } from './dto/create-quiz.request.dto';
 
 const QUIZZ_DETAIL: IQuestionDetail = {
   question: 'question',
@@ -98,16 +99,28 @@ describe('quizzesController', () => {
     });
   });
 
-  // describe('findOne', () => {
-  //   it('should return an object by Id', async () => {
-  //     // Filter the result based on condition
-  //     const filteredResults = quizzesS.filter(() => true);
+  describe('findOne', () => {
+    it('should return an object by Id', async () => {
+      jest.spyOn(quizzesService, 'findOne').mockResolvedValue(QUIZZ);
 
-  //     jest.spyOn(quizzesService, 'findOne').mockResolvedValue(filteredResults);
+      expect(await quizzesController.findOne('_id')).toBe(
+        QUIZZ,
+      );
+    });
+  });
 
-  //     expect(await quizzesController.findOne('_id')).toBe(
-  //       filteredResults,
-  //     );
-  //   });
-  // });
+  describe('create', () => {
+    it('should return the created object result', async () => {
+      const createdQuizResult = await quizzesController.create({
+        userFirebaseId: QUIZZ.userFirebaseId,
+        numberOfQuestions: QUIZZ.numberOfQuestions,
+        correctAnswers: QUIZZ.correctAnswers,
+        quizOption: QUIZZ.quizOption,
+        details: [QUIZZ_DETAIL as QuestionDetailDto],
+        datetime: QUIZZ.datetime
+      });
+
+      expect(createdQuizResult).toBeTruthy()
+    })
+  })
 });

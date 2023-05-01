@@ -120,9 +120,35 @@ describe('userController', () => {
 
       jest.spyOn(userService, 'findOne').mockResolvedValue(filteredResults);
 
-      expect(await userController.findOne('example@gmail.com')).toBe(
+      expect(await userController.findOneByEmail('example@gmail.com')).toBe(
         filteredResults,
       );
     });
   });
+
+  describe("create", () => {
+    it('should return the created result as success if not duplicated', async () => {
+      jest.spyOn(userService, 'findOne').mockResolvedValue(null);
+
+      expect(await userController.create({ ...USER })).toEqual(expect.objectContaining({ ...USER }))
+    });
+
+    it("should throws error if user is duplicated", async () => {
+      jest.spyOn(userService, 'findOne').mockResolvedValue({ ...USER } as UserEntity);
+
+      expect(userController.create({ ...USER })).rejects.toThrow()
+    })
+  })
+
+  describe("updateProfile", () => {
+    it('should return the update result as success', async () => {
+      const user = { ...USER }
+      user.name = "Updated Name"
+      jest.spyOn(userService, 'findOneAndUpdate').mockResolvedValue({ ...user } as UserEntity);
+
+      const updateResult = await userController.update({ ...user });
+
+      expect(updateResult.name).toBe("Updated Name")
+    });
+  })
 });

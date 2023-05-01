@@ -26,8 +26,6 @@ const ACUPOINT = {
 
 const ACUPOINTS = [ACUPOINT] as AcupointsEntity_en[];
 
-// const EXAMPLE_VI_ITEMS = [] as AcupointsEntity_vi[];
-
 describe('AcupointController', () => {
   let acupointController: AcupointController;
   let acupointServiceVi: AcupointService_vi;
@@ -162,4 +160,24 @@ describe('AcupointController', () => {
       ).toBe(filteredResult);
     });
   });
+
+  describe('updateAcupoint - en', () => {
+    it("should return the created object and saved", async () => {
+      const createdAcupoint = await acupointController.updateAcupoint({
+        language: LanguageEnum.EN
+      }, { ...ACUPOINT });
+
+      expect(createdAcupoint).toBeTruthy()
+    })
+  })
+
+  describe('updateAcupoint - vi', () => {
+    it("should return the created object and saved", async () => {
+      const createdAcupoint = await acupointController.updateAcupoint({
+        language: LanguageEnum.VI
+      }, { ...ACUPOINT });
+
+      expect(createdAcupoint).toBeTruthy()
+    })
+  })
 });

@@ -158,4 +158,24 @@ describe('meridianController', () => {
       ).toBe(filteredResult);
     });
   });
+
+  describe('updateMeridian - en', () => {
+    it("should return the created object and saved", async () => {
+      const createdAcupoint = await meridianController.updateMeridian({
+        language: LanguageEnum.EN
+      }, { ...MERIDIAN });
+
+      expect(createdAcupoint).toBeTruthy()
+    })
+  })
+
+  describe('updateMeridian - vi', () => {
+    it("should return the created object and saved", async () => {
+      const createdAcupoint = await meridianController.updateMeridian({
+        language: LanguageEnum.VI
+      }, { ...MERIDIAN });
+
+      expect(createdAcupoint).toBeTruthy()
+    })
+  })
 });
